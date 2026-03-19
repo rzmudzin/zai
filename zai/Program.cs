@@ -5,8 +5,11 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        var registry = new AgentRegistry();
+        // Start the registry
+        var registry = new AgentRegistry("http://localhost:6000");
+        registry.Start();
 
+        // Define capabilities
         var scopeCapabilities = new List<Capability>
         {
             new Capability
@@ -29,6 +32,7 @@ public class Program
             }
         };
 
+        // Create agents
         var scopeAgent = new Agent(
             name: "ScopeAgent",
             description: "Analyzes sensor streams.",
@@ -45,24 +49,27 @@ public class Program
             baseUrl: "http://localhost:5006"
         );
 
-        // Start both agents and register them
+        // Start agents and register them
         scopeAgent.Start(registry);
         floorPlanAgent.Start(registry);
 
         await Task.Delay(300);
 
+        // Orchestrator now discovers agents via registry
         var orchestrator = new Orchestrator();
 
         Console.WriteLine("\n=== Discovering Agents via Registry ===");
 
-        foreach (var endpoint in registry.GetAllAgentEndpoints())
+        var agentEndpoints = await orchestrator.FetchRegistryAsync("http://localhost:6000/registry/agents");
+
+        foreach (var endpoint in agentEndpoints)
         {
             var cardJson = await orchestrator.FetchAgentCardAsync(endpoint);
             Console.WriteLine($"\n--- MCP Card from {endpoint} ---");
             Console.WriteLine(cardJson);
         }
 
-        Console.WriteLine("\nAgents running. Press ENTER to exit.");
+        Console.WriteLine("\nSystem running. Press ENTER to exit.");
         Console.ReadLine();
     }
 }
