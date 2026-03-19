@@ -24,8 +24,10 @@ public class Agent
         _listener.Prefixes.Add($"{baseUrl}/mcp/");
     }
 
-    public void Start()
+    public void Start(AgentRegistry registry)
     {
+        registry.RegisterAgent(Card.Endpoint);
+
         _listener.Start();
         Console.WriteLine($"Agent '{Card.Name}' listening at {Card.Endpoint}");
 
@@ -55,4 +57,5 @@ public class Agent
             }
         });
     }
+
 }

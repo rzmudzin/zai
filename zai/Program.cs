@@ -5,6 +5,8 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        var registry = new AgentRegistry();
+
         var scopeCapabilities = new List<Capability>
         {
             new Capability
@@ -27,7 +29,6 @@ public class Program
             }
         };
 
-        // Create two agents on different ports
         var scopeAgent = new Agent(
             name: "ScopeAgent",
             description: "Analyzes sensor streams.",
@@ -44,25 +45,22 @@ public class Program
             baseUrl: "http://localhost:5006"
         );
 
-        // Start both agents
-        scopeAgent.Start();
-        floorPlanAgent.Start();
+        // Start both agents and register them
+        scopeAgent.Start(registry);
+        floorPlanAgent.Start(registry);
 
-        // Give listeners time to bind
         await Task.Delay(300);
 
-        // Bring back the Orchestrator
         var orchestrator = new Orchestrator();
 
-        // Fetch both MCP cards
-        var scopeCardJson = await orchestrator.FetchAgentCardAsync(scopeAgent.Card.Endpoint);
-        var floorCardJson = await orchestrator.FetchAgentCardAsync(floorPlanAgent.Card.Endpoint);
+        Console.WriteLine("\n=== Discovering Agents via Registry ===");
 
-        Console.WriteLine("\n=== ScopeAgent MCP Card ===");
-        Console.WriteLine(scopeCardJson);
-
-        Console.WriteLine("\n=== FloorPlanAgent MCP Card ===");
-        Console.WriteLine(floorCardJson);
+        foreach (var endpoint in registry.GetAllAgentEndpoints())
+        {
+            var cardJson = await orchestrator.FetchAgentCardAsync(endpoint);
+            Console.WriteLine($"\n--- MCP Card from {endpoint} ---");
+            Console.WriteLine(cardJson);
+        }
 
         Console.WriteLine("\nAgents running. Press ENTER to exit.");
         Console.ReadLine();
