@@ -48,7 +48,23 @@ public class Program
         scopeAgent.Start();
         floorPlanAgent.Start();
 
-        Console.WriteLine("Agents running. Press ENTER to exit.");
+        // Give listeners time to bind
+        await Task.Delay(300);
+
+        // Bring back the Orchestrator
+        var orchestrator = new Orchestrator();
+
+        // Fetch both MCP cards
+        var scopeCardJson = await orchestrator.FetchAgentCardAsync(scopeAgent.Card.Endpoint);
+        var floorCardJson = await orchestrator.FetchAgentCardAsync(floorPlanAgent.Card.Endpoint);
+
+        Console.WriteLine("\n=== ScopeAgent MCP Card ===");
+        Console.WriteLine(scopeCardJson);
+
+        Console.WriteLine("\n=== FloorPlanAgent MCP Card ===");
+        Console.WriteLine(floorCardJson);
+
+        Console.WriteLine("\nAgents running. Press ENTER to exit.");
         Console.ReadLine();
     }
 }
