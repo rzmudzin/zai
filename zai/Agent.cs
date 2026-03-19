@@ -5,23 +5,32 @@ using zai.Models;
 
 namespace zai;
 
-public class Agent
+public abstract class Agent
 {
-    public AgentCard Card { get; }
-    private readonly HttpListener _listener = new();
+    public abstract string Name { get; }
+    public abstract string Description { get; }
+    public abstract string Version { get; }
+    public abstract List<Capability> Capabilities { get; }
 
-    public Agent(string name, string description, string version, List<Capability> capabilities, string baseUrl)
+    public AgentCard Card { get; private set; }
+
+    private readonly HttpListener _listener = new();
+    private readonly string _baseUrl;
+
+    protected Agent(string baseUrl)
     {
+        _baseUrl = baseUrl;
+
         Card = new AgentCard
         {
-            Name = name,
-            Description = description,
-            Version = version,
-            Capabilities = capabilities,
-            Endpoint = $"{baseUrl}/mcp/agent-card"
+            Name = Name,
+            Description = Description,
+            Version = Version,
+            Capabilities = Capabilities,
+            Endpoint = $"{_baseUrl}/mcp/agent-card"
         };
 
-        _listener.Prefixes.Add($"{baseUrl}/mcp/");
+        _listener.Prefixes.Add($"{_baseUrl}/mcp/");
     }
 
     public void Start(AgentRegistry registry)
@@ -29,7 +38,7 @@ public class Agent
         registry.RegisterAgent(Card.Endpoint);
 
         _listener.Start();
-        Console.WriteLine($"Agent '{Card.Name}' listening at {Card.Endpoint}");
+        Console.WriteLine($"Agent '{Name}' listening at {Card.Endpoint}");
 
         _ = Task.Run(async () =>
         {
@@ -57,5 +66,4 @@ public class Agent
             }
         });
     }
-
 }
