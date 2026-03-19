@@ -1,74 +1,54 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using zai;
 using zai.Models;
-
-namespace zai;
 
 public class Program
 {
     public static async Task Main(string[] args)
     {
-        var agentCard = new AgentCard
+        var scopeCapabilities = new List<Capability>
         {
-            Name = "ScopeAgent",
-            Description = "Analyzes sensor streams and provides guidance.",
-            Version = "1.0.0",
-            Capabilities = new List<Capability>
+            new Capability
             {
-                new Capability
-                {
-                    Name = "AnalyzeImage",
-                    Description = "Accepts an image and returns bounding boxes.",
-                    InputSchema = "{ \"type\": \"object\", \"properties\": { \"image\": { \"type\": \"string\", \"format\": \"base64\" }}}",
-                    OutputSchema = "{ \"type\": \"object\", \"properties\": { \"boxes\": { \"type\": \"array\" }}}"
-                }
-            },
-            Endpoint = "http://localhost:5005/mcp/agent-card"
+                Name = "AnalyzeImage",
+                Description = "Accepts an image and returns bounding boxes.",
+                InputSchema = "{ ... }",
+                OutputSchema = "{ ... }"
+            }
         };
 
-        // Start MCP Agent Card server
-        var listener = new HttpListener();
-        listener.Prefixes.Add("http://localhost:5005/mcp/");
-        listener.Start();
-
-        Console.WriteLine("MCP Agent Card server running on http://localhost:5005/mcp/agent-card");
-
-        _ = Task.Run(async () =>
+        var floorPlanCapabilities = new List<Capability>
         {
-            while (true)
+            new Capability
             {
-                var ctx = await listener.GetContextAsync();
-                if (ctx.Request.Url!.AbsolutePath == "/mcp/agent-card")
-                {
-                    var json = JsonSerializer.Serialize(agentCard, new JsonSerializerOptions
-                    {
-                        WriteIndented = true
-                    });
-
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
-                    ctx.Response.ContentType = "application/json";
-                    ctx.Response.OutputStream.Write(buffer, 0, buffer.Length);
-                    ctx.Response.Close();
-                }
-                else
-                {
-                    ctx.Response.StatusCode = 404;
-                    ctx.Response.Close();
-                }
+                Name = "GenerateFloorPlan",
+                Description = "Creates a floor plan from images.",
+                InputSchema = "{ ... }",
+                OutputSchema = "{ ... }"
             }
-        });
+        };
 
-        // Use the new Orchestrator class
-        var orchestrator = new Orchestrator();
+        // Create two agents on different ports
+        var scopeAgent = new Agent(
+            name: "ScopeAgent",
+            description: "Analyzes sensor streams.",
+            version: "1.0.0",
+            capabilities: scopeCapabilities,
+            baseUrl: "http://localhost:5005"
+        );
 
-        await Task.Delay(500); // Give server time to start
+        var floorPlanAgent = new Agent(
+            name: "FloorPlanAgent",
+            description: "Generates floor plans.",
+            version: "1.0.0",
+            capabilities: floorPlanCapabilities,
+            baseUrl: "http://localhost:5006"
+        );
 
-        var cardJson = await orchestrator.FetchAgentCardAsync(agentCard.Endpoint);
+        // Start both agents
+        scopeAgent.Start();
+        floorPlanAgent.Start();
 
-        Console.WriteLine("\nFetched MCP Agent Card:");
-        Console.WriteLine(cardJson);
-
-        Console.WriteLine("\nPress ENTER to exit.");
+        Console.WriteLine("Agents running. Press ENTER to exit.");
         Console.ReadLine();
     }
 }
