@@ -9,8 +9,10 @@
 
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="Streams\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Streams\" />
   </ItemGroup>
 </Project>

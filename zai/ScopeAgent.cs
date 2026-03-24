@@ -20,4 +20,18 @@ public class ScopeAgent : Agent
             OutputSchema = "{ ... }"
         }
     };
+
+    public override StreamProfile StreamProfile => new StreamProfile
+    {
+        Video = new VideoProfile
+        {
+            Required = true,
+            Resolution = "1080p",
+            Fps = 30
+        },
+        Depth = new DepthProfile
+        {
+            Required = true
+        }
+    };
 }

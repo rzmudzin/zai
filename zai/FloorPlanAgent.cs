@@ -20,4 +20,14 @@ public class FloorPlanAgent : Agent
             OutputSchema = "{ ... }"
         }
     };
+
+    public override StreamProfile StreamProfile => new StreamProfile
+    {
+        Video = new VideoProfile
+        {
+            Required = true,
+            Resolution = "4k",
+            Fps = 1
+        }
+    };
 }

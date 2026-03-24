@@ -1,27 +1,35 @@
 ﻿<Properties StartupConfiguration="{DEB345B8-E552-4C7E-8F61-A8B8A27E3A13}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="zai/Program.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="zai/Models/AgentCard.cs">
     <Files>
-      <File FileName="zai/Program.cs" Line="63" Column="70" />
-      <File FileName="zai/Models/AgentCard.cs" Line="11" Column="1" />
-      <File FileName="zai/Models/Capability.cs" Line="10" Column="1" />
+      <File FileName="zai/Models/AgentCard.cs" Line="27" Column="34" />
+      <File FileName="zai/Orchestrator.cs" Line="28" Column="39" />
+      <File FileName="zai/Agent.cs" Line="17" Column="1" />
+      <File FileName="zai/Streams/VideoStream.cs" Line="43" Column="1" />
+      <File FileName="zai/Streams/DepthStream.cs" Line="34" Column="1" />
+      <File FileName="zai/Streams/LidarStream.cs" Line="34" Column="1" />
+      <File FileName="zai/AgentRegistry.cs" Line="36" Column="1" />
+      <File FileName="zai/Program.cs" Line="23" Column="44" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="zai" expanded="True" selected="True">
-            <Node name="zai" expanded="True">
+          <Node name="zai" selected="True">
+            <Node name="zai">
               <Node name="Models" expanded="True" />
+              <Node name="Streams" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.zai PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/rzmudzinski/projects/zai/zai/AgentRegistry.cs" relfile="zai/AgentRegistry.cs" line="36" column="17" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
 </Properties>
