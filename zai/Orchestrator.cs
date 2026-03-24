@@ -75,6 +75,9 @@ public class Orchestrator
 
     private void ConfigureVideo(VideoProfile profile, string agentName)
     {
+        //Enusre Video stream card we've obtained has a profile that meets our criteria.
+        //If it does use the profile to instantiate a new instance or add a subscriptin to an existing one
+        //Our criteria for video is relatively simple... ensure it publishes ifo regarding supported FPS and resolution
         if (!profile.Required)
             return;
 
@@ -122,6 +125,7 @@ public class Orchestrator
                 cards.Add(card);
         }
 
+        //Cycle through each card we've obtained checking each if it meets our criteria for that type of stream/service
         foreach (var card in cards)
         {
             var profile = card.StreamProfile;
