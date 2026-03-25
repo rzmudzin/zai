@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using zai.Profiles;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "kind")]
 [JsonDerivedType(typeof(VideoProfile), "video")]

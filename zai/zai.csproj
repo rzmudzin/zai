@@ -10,9 +10,11 @@
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Streams\" />
+    <None Remove="Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Streams\" />
+    <Folder Include="Profiles\" />
   </ItemGroup>
 </Project>

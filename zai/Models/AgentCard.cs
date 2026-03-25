@@ -12,20 +12,4 @@ public class AgentCard
 
 }
 
-public sealed class VideoProfile : StreamProfileBase
-{
-    public string? Resolution { get; init; }
-    public int? Fps { get; init; }
-}
 
-public sealed class DepthProfile : StreamProfileBase
-{
-}
-
-public sealed class LidarProfile : StreamProfileBase
-{
-}
-
-public sealed class AudioProfile : StreamProfileBase
-{
-}
