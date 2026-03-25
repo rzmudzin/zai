@@ -11,7 +11,7 @@ public abstract class Agent
     public abstract string Description { get; }
     public abstract string Version { get; }
     public abstract List<Capability> Capabilities { get; }
-    public abstract StreamProfile StreamProfile { get; }
+    public abstract List<StreamProfileBase> StreamProfiles { get; }
 
     public AgentCard Card { get; private set; }
 
@@ -29,7 +29,7 @@ public abstract class Agent
             Version = Version,
             Capabilities = Capabilities,
             Endpoint = $"{_baseUrl}/mcp/agent-card",
-            StreamProfile = StreamProfile
+            StreamProfiles = StreamProfiles
         };
 
         _listener.Prefixes.Add($"{_baseUrl}/mcp/");

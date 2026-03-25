@@ -122,26 +122,30 @@ public class Orchestrator
             );
 
             if (card != null)
+            {
                 cards.Add(card);
-        }
+                foreach (var profile in card.StreamProfiles)
+                {
+                    switch (profile)
+                    {
+                        case VideoProfile v:
+                            ConfigureVideo(v, card.Name);
+                            break;
 
-        //Cycle through each card we've obtained checking each if it meets our criteria for that type of stream/service
-        foreach (var card in cards)
-        {
-            var profile = card.StreamProfile;
-            if (profile == null) continue;
+                        case DepthProfile d:
+                            ConfigureDepth(d, card.Name);
+                            break;
 
-            if (profile.Video?.Required == true)
-                ConfigureVideo(profile.Video, card.Name);
+                        case LidarProfile l:
+                            ConfigureLidar(l, card.Name);
+                            break;
 
-            if (profile.Depth?.Required == true)
-                ConfigureDepth(profile.Depth, card.Name);
-
-            if (profile.Lidar?.Required == true)
-                ConfigureLidar(profile.Lidar, card.Name);
-
-            if (profile.Audio?.Required == true)
-                ConfigureAudio(profile.Audio, card.Name);
+                        case AudioProfile a:
+                            ConfigureAudio(a, card.Name);
+                            break;
+                    }
+                }
+            }
         }
 
         return cards;

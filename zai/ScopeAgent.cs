@@ -21,15 +21,14 @@ public class ScopeAgent : Agent
         }
     };
 
-    public override StreamProfile StreamProfile => new StreamProfile
-    {
-        Video = new VideoProfile
+    public override List<StreamProfileBase> StreamProfiles => new List<StreamProfileBase> {
+        new VideoProfile
         {
             Required = true,
             Resolution = "1080p",
             Fps = 30
         },
-        Depth = new DepthProfile
+        new DepthProfile
         {
             Required = true
         }

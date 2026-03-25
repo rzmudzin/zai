@@ -21,13 +21,19 @@ public class FloorPlanAgent : Agent
         }
     };
 
-    public override StreamProfile StreamProfile => new StreamProfile
+    public override List<StreamProfileBase> StreamProfiles => new List<StreamProfileBase>
     {
-        Video = new VideoProfile
+        new VideoProfile
         {
             Required = true,
-            Resolution = "4k",
-            Fps = 1
+            Resolution = "1080p",
+            Fps = 30
         }
+        //new VideoProfile
+        //{
+        //    Required = true,
+        //    Resolution = "4k",
+        //    Fps = 1
+        //}
     };
 }

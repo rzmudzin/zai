@@ -8,36 +8,24 @@ public class AgentCard
     public List<Capability> Capabilities { get; set; }
     public string Endpoint { get; set; }
 
-    // NEW
-    public StreamProfile StreamProfile { get; set; }
+    public List<StreamProfileBase> StreamProfiles { get; init; } = new();
+
 }
 
-public class StreamProfile
+public sealed class VideoProfile : StreamProfileBase
 {
-    public VideoProfile? Video { get; set; }
-    public DepthProfile? Depth { get; set; }
-    public LidarProfile? Lidar { get; set; }
-    public AudioProfile? Audio { get; set; }
+    public string? Resolution { get; init; }
+    public int? Fps { get; init; }
 }
 
-public class VideoProfile
+public sealed class DepthProfile : StreamProfileBase
 {
-    public bool Required { get; set; }
-    public string? Resolution { get; set; }
-    public int? Fps { get; set; }
 }
 
-public class DepthProfile
+public sealed class LidarProfile : StreamProfileBase
 {
-    public bool Required { get; set; }
 }
 
-public class LidarProfile
+public sealed class AudioProfile : StreamProfileBase
 {
-    public bool Required { get; set; }
-}
-
-public class AudioProfile
-{
-    public bool Required { get; set; }
 }
