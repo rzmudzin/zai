@@ -1,16 +1,19 @@
 ﻿using System.Net;
 using System.Text;
 using System.Text.Json;
+using zai.Capabilities;
 using zai.Models;
 
 namespace zai;
 
 public abstract class Agent
 {
+    public abstract string AgentId { get; }
     public abstract string Name { get; }
     public abstract string Description { get; }
     public abstract string Version { get; }
-    public abstract List<Capability> Capabilities { get; }
+    //public abstract List<Capability> Capabilities { get; }
+    public abstract IReadOnlyList<CapabilityDescriptor> Capabilities { get; }
     public abstract List<StreamProfileBase> StreamProfiles { get; }
 
     public AgentCard Card { get; private set; }
@@ -24,6 +27,7 @@ public abstract class Agent
 
         Card = new AgentCard
         {
+            AgentId = AgentId,
             Name = Name,
             Description = Description,
             Version = Version,

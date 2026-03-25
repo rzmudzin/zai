@@ -7,7 +7,7 @@ namespace zai.Capabilities
     {
         public IReadOnlyList<SupportedInputFormat> InputFormats { get; init; } // e.g. "image/jpeg", "video/mp4"
         public IReadOnlyList<OutputFormat> OutputFormats { get; init; }        // e.g. "application/json+floorplan"
-        public Resolution? PreferredResolution { get; init; }                  // ties into StreamProfiles
+        public PreferredResolution? PreferredResolution { get; init; }                  // ties into StreamProfiles
     }
 
 }

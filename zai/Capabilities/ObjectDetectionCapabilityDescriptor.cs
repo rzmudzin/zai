@@ -5,9 +5,12 @@ namespace zai.Capabilities
 {
     public sealed class ObjectDetectionCapabilityDescriptor : CapabilityDescriptor
     {
-        public IReadOnlyList<string> SupportedClasses { get; init; } // "door", "window", "wall"
+        public IReadOnlyList<SupportedInputFormat> InputFormats { get; init; }
+        public IReadOnlyList<OutputFormat> OutputFormats { get; init; }
+        public IReadOnlyList<string> SupportedClasses { get; init; }
         public ConfidenceRange ConfidenceRange { get; init; }
     }
+
 
 }
 

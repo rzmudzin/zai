@@ -1,4 +1,5 @@
-﻿using zai.Models;
+﻿using zai.Capabilities;
+using zai.Models;
 using zai.Profiles;
 
 namespace zai;
@@ -6,21 +7,44 @@ namespace zai;
 public class FloorPlanAgent : Agent
 {
     public FloorPlanAgent(string baseUrl) : base(baseUrl) { }
-
+    public override string AgentId => "floorplan-agent";
     public override string Name => "FloorPlanAgent";
     public override string Description => "Generates floor plans.";
     public override string Version => "1.0.0";
 
-    public override List<Capability> Capabilities => new()
+    public override IReadOnlyList<CapabilityDescriptor> Capabilities => new CapabilityDescriptor[]
     {
-        new Capability
+        new FloorPlanGenerationCapabilityDescriptor
         {
+            CapabilityId = "generate-floorplan",
             Name = "GenerateFloorPlan",
-            Description = "Creates a floor plan from images.",
-            InputSchema = "{ ... }",
-            OutputSchema = "{ ... }"
+            Version = "1.0",
+            Description = "Generates a floor plan from a video stream.",
+            Kind = CapabilityKind.ServerStreaming,
+
+            InputFormats = new[]
+            {
+                new SupportedInputFormat("video/mp4"),
+                new SupportedInputFormat("video/h264")
+            },
+
+            OutputFormats = new[]
+            {
+                new OutputFormat(
+                    mimeType: "application/json+floorplan",
+                    fileExtension: "json",
+                    schema: "floorplan-v1"
+                )
+            },
+
+            PreferredResolution = new PreferredResolution(
+                new Resolution(1280, 720),
+                weight: 1.0
+            )
         }
     };
+
+
 
     public override List<StreamProfileBase> StreamProfiles => new List<StreamProfileBase>
     {
