@@ -40,14 +40,19 @@ public class Program
             ));
         }
 
-        Console.WriteLine("\nSystem initialized. Press ENTER to shut down.");
-        Console.ReadLine();
+        //Console.WriteLine("\nSystem initialized. Press ENTER to shut down.");
+        //Console.ReadLine();
 
         // 6. Graceful shutdown
         //scopeAgent.Stop(registry);
         //floorAgent.Stop(registry);
 
-        Console.WriteLine("Shutdown requested. Cleaning up...");
-        await Task.Delay(300);
+        //Console.WriteLine("Shutdown requested. Cleaning up...");
+        //await Task.Delay(300);
+
+        Console.WriteLine("\nSystem initialized. Press CTRL+C to exit.");
+        await Task.Delay(Timeout.Infinite);
+
+
     }
 }
