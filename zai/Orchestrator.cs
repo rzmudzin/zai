@@ -5,7 +5,7 @@ namespace zai;
 public class Orchestrator
 {
     private readonly HttpClient _httpClient = new();
-    private VideoStream? _videoStream;
+    private readonly Dictionary<string, VideoStream> _videoStreams = new();
     private DepthStream? _depthStream;
     private LidarStream? _lidarStream;
     private AudioStream? _audioStream;
@@ -75,9 +75,6 @@ public class Orchestrator
 
     private void ConfigureVideo(VideoProfile profile, string agentName)
     {
-        //Enusre Video stream card we've obtained has a profile that meets our criteria.
-        //If it does use the profile to instantiate a new instance or add a subscriptin to an existing one
-        //Our criteria for video is relatively simple... ensure it publishes ifo regarding supported FPS and resolution
         if (!profile.Required)
             return;
 
@@ -87,25 +84,24 @@ public class Orchestrator
         if (profile.Fps is null or <= 0)
             throw new InvalidOperationException($"Agent '{agentName}' requires video but did not specify a valid FPS.");
 
-        if (_videoStream != null)
-        {
-            if (_videoStream.Resolution != profile.Resolution ||
-                _videoStream.Fps != profile.Fps)
-            {
-                throw new InvalidOperationException(
-                    $"Video stream conflict: existing stream is {_videoStream.Resolution}@{_videoStream.Fps}fps, " +
-                    $"but agent '{agentName}' requires {profile.Resolution}@{profile.Fps}fps."
-                );
-            }
+        // Unique key for this video profile
+        var key = $"{profile.Resolution}@{profile.Fps}";
 
-            _videoStream.AddSubscriber(agentName);
+        // If a stream with this profile already exists, subscribe to it
+        if (_videoStreams.TryGetValue(key, out var existingStream))
+        {
+            existingStream.AddSubscriber(agentName);
             return;
         }
 
-        _videoStream = new VideoStream(profile.Resolution, profile.Fps.Value);
-        _videoStream.Start();
-        _videoStream.AddSubscriber(agentName);
+        // Otherwise create a new stream for this profile
+        var newStream = new VideoStream(profile.Resolution, profile.Fps.Value);
+        newStream.Start();
+        newStream.AddSubscriber(agentName);
+
+        _videoStreams[key] = newStream;
     }
+
 
     public async Task<List<AgentCard>> DiscoverAgentsAndConfigureStreams(string registryUrl)
     {
