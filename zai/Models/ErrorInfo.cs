@@ -2,7 +2,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace zai
+namespace zai.Models
 {
 
     public readonly struct ErrorInfo

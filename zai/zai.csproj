@@ -13,6 +13,7 @@
     <None Remove="Profiles\" />
     <None Remove="Capabilities\" />
     <None Remove="Capabilities\Invocation\" />
+    <None Remove="Capabilities\Registration\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -20,5 +21,6 @@
     <Folder Include="Profiles\" />
     <Folder Include="Capabilities\" />
     <Folder Include="Capabilities\Invocation\" />
+    <Folder Include="Capabilities\Registration\" />
   </ItemGroup>
 </Project>

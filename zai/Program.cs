@@ -1,5 +1,6 @@
 ﻿using System;
 using zai;
+using zai.Capabilities.Registration;
 
 public class Program
 {
@@ -12,6 +13,11 @@ public class Program
         // 2. Start agents
         var scopeAgent = new ScopeAgent("http://localhost:5005");
         var floorAgent = new FloorPlanAgent("http://localhost:5006");
+
+        //Next 3 lines just some test code working with the capabilities registry
+        var agentCards = new AgentCard[] { scopeAgent.Card, floorAgent.Card };
+        ICapabilityRegistry capabilityRegistry = new CapabilityRegistry(agentCards);
+        var generateFloorPanCapability = capabilityRegistry.GetByCapabilityId("generate-floorplan");
 
         scopeAgent.Start(registry);
         floorAgent.Start(registry);

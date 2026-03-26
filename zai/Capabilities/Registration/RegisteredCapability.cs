@@ -1,5 +1,5 @@
 ﻿using System;
-namespace zai.Capabilities
+namespace zai.Capabilities.Registration
 {
     public sealed class RegisteredCapability
     {
@@ -8,8 +8,8 @@ namespace zai.Capabilities
 
         public RegisteredCapability(string agentId, CapabilityDescriptor descriptor)
         {
-            AgentId = agentId;
-            Descriptor = descriptor;
+            AgentId = agentId ?? throw new ArgumentNullException(nameof(agentId));
+            Descriptor = descriptor ?? throw new ArgumentNullException(nameof(descriptor));
         }
     }
 
