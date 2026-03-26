@@ -61,7 +61,7 @@ public class Program
 
         var agentDirectory = new InMemoryAgentDirectory(new Dictionary<string, IAgentRuntime>
         {
-            //["scope-agent"] = new InProcessAgentRuntime(new ScopeAgentCapabilityHandler()),
+            ["scope-agent"] = new InProcessAgentRuntime(new ScopeAgentCapabilityHandler()),
             ["floorplan-agent"] = new InProcessAgentRuntime(new FloorPlanCapabilityHandler())
         });
         var a2a = new A2AOrchestrator(capabilityRegistry, agentDirectory);
