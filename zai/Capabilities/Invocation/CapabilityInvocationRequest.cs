@@ -5,14 +5,39 @@ namespace zai.Capabilities.Invocation
 {
     public sealed class CapabilityInvocationRequest
     {
-        public string InvocationId { get; init; }          // Correlation
-        public string CallerAgentId { get; init; }
-        public string TargetAgentId { get; init; }         // Optional if using logical routing
-        public string CapabilityName { get; init; }        // e.g. "FloorPlan.Generate"
-        public string CapabilityVersion { get; init; }     // e.g. "1.0"
-        public JsonElement Payload { get; init; }          // Typed per capability
-        public IReadOnlyDictionary<string, string> Metadata { get; init; }
+        /// <summary>
+        /// The agent initiating the invocation.
+        /// </summary>
+        public string CallerAgentId { get; init; } = default!;
+
+        /// <summary>
+        /// The agent that should execute the capability.
+        /// </summary>
+        public string TargetAgentId { get; init; } = default!;
+
+        /// <summary>
+        /// The capability being invoked.
+        /// </summary>
+        public string CapabilityId { get; init; } = default!;
+
+        /// <summary>
+        /// Unique identifier for this invocation.
+        /// Used for tracing, correlation, and streaming.
+        /// </summary>
+        public Guid InvocationId { get; init; } = Guid.NewGuid();
+
+        /// <summary>
+        /// The input payload for the capability.
+        /// This is JSON because capabilities are polymorphic.
+        /// </summary>
+        public JsonElement Payload { get; init; }
+
+        /// <summary>
+        /// Optional metadata for tracing, debugging, or routing.
+        /// </summary>
+        public Dictionary<string, string>? Metadata { get; init; }
     }
+
 
 }
 
