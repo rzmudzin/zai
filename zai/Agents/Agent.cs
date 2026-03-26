@@ -4,7 +4,7 @@ using System.Text.Json;
 using zai.Capabilities;
 using zai.Models;
 
-namespace zai;
+namespace zai.Agents;
 
 public abstract class Agent
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using zai;
+using zai.Agents;
 using zai.Capabilities.Registration;
 
 public class Program

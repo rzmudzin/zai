@@ -14,6 +14,8 @@
     <None Remove="Capabilities\" />
     <None Remove="Capabilities\Invocation\" />
     <None Remove="Capabilities\Registration\" />
+    <None Remove="Agents\" />
+    <None Remove="Agents\RunTime\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -22,5 +24,7 @@
     <Folder Include="Capabilities\" />
     <Folder Include="Capabilities\Invocation\" />
     <Folder Include="Capabilities\Registration\" />
+    <Folder Include="Agents\" />
+    <Folder Include="Agents\RunTime\" />
   </ItemGroup>
 </Project>

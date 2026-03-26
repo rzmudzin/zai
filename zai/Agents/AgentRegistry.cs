@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace zai;
+namespace zai.Agents;
 
 public class AgentRegistry
 {

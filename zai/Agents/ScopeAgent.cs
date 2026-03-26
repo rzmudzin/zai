@@ -2,7 +2,7 @@
 using zai.Models;
 using zai.Profiles;
 
-namespace zai;
+namespace zai.Agents;
 
 public class ScopeAgent : Agent
 {

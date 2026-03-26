@@ -1,4 +1,8 @@
 ﻿using System.Text.Json;
+using zai.Agents;
+using zai.Capabilities.Invocation;
+using zai.Capabilities.Registration;
+using zai.Models;
 using zai.Profiles;
 
 namespace zai;
