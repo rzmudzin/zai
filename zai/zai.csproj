@@ -12,11 +12,13 @@
     <None Remove="Streams\" />
     <None Remove="Profiles\" />
     <None Remove="Capabilities\" />
+    <None Remove="Capabilities\Invocation\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Streams\" />
     <Folder Include="Profiles\" />
     <Folder Include="Capabilities\" />
+    <Folder Include="Capabilities\Invocation\" />
   </ItemGroup>
 </Project>
