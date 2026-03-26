@@ -15,6 +15,8 @@ public class Orchestrator
     private LidarStream? _lidarStream;
     private AudioStream? _audioStream;
 
+    public IReadOnlyList<AgentCard> AgentCards { get; private set; } = Array.Empty<AgentCard>();
+
 
     public async Task<List<string>> FetchRegistryAsync(string registryUrl)
     {
@@ -148,7 +150,7 @@ public class Orchestrator
                 }
             }
         }
-
+        AgentCards = cards;
         return cards;
     }
 

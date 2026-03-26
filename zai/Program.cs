@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Text.Json;
 using zai;
 using zai.Agents;
+using zai.Agents.RunTime;
+using zai.Capabilities.Invocation;
 using zai.Capabilities.Registration;
 
 public class Program
@@ -16,9 +19,9 @@ public class Program
         var floorAgent = new FloorPlanAgent("http://localhost:5006");
 
         //Next 3 lines just some test code working with the capabilities registry
-        var agentCards = new AgentCard[] { scopeAgent.Card, floorAgent.Card };
-        ICapabilityRegistry capabilityRegistry = new CapabilityRegistry(agentCards);
-        var generateFloorPanCapability = capabilityRegistry.GetByCapabilityId("generate-floorplan");
+        //var agentCards = new AgentCard[] { scopeAgent.Card, floorAgent.Card };
+        //ICapabilityRegistry capabilityRegistry = new CapabilityRegistry(agentCards);
+        //var generateFloorPanCapability = capabilityRegistry.GetByCapabilityId("generate-floorplan");
 
         scopeAgent.Start(registry);
         floorAgent.Start(registry);
@@ -26,15 +29,24 @@ public class Program
         // Give agents a moment to register
         await Task.Delay(300);
 
+
         // 3. Create orchestrator
-        var orchestrator = new Orchestrator();
+        var registryUrl = "http://localhost:6000/registry/agents";
+        var bootstrapOrchestrator = new Orchestrator();
+        var cards = await bootstrapOrchestrator.DiscoverAgentsAndConfigureStreams(registryUrl);
 
-        Console.WriteLine("\n=== Discovering Agents and Configuring Streams ===");
+        // Build the capability registry
+        var capabilityRegistry = new CapabilityRegistry(cards);
 
-        // 4. Discover agents + configure streams based on StreamProfile
-        var cards = await orchestrator.DiscoverAgentsAndConfigureStreams(
-            "http://localhost:6000/registry/agents"
-        );
+
+        //var orchestrator = new Orchestrator();
+
+        //Console.WriteLine("\n=== Discovering Agents and Configuring Streams ===");
+
+        //// 4. Discover agents + configure streams based on StreamProfile
+        //var cards = await orchestrator.DiscoverAgentsAndConfigureStreams(
+        //    "http://localhost:6000/registry/agents"
+        //);
 
         // 5. Print MCP cards for visibility
         foreach (var card in cards)
@@ -46,6 +58,26 @@ public class Program
                 new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
             ));
         }
+
+        var agentDirectory = new InMemoryAgentDirectory(new Dictionary<string, IAgentRuntime>
+        {
+            //["scope-agent"] = new InProcessAgentRuntime(new ScopeAgentCapabilityHandler()),
+            ["floorplan-agent"] = new InProcessAgentRuntime(new FloorPlanCapabilityHandler())
+        });
+        var a2a = new A2AOrchestrator(capabilityRegistry, agentDirectory);
+        var response = await a2a.InvokeAsync(new CapabilityInvocationRequest
+        {
+            InvocationId = Guid.NewGuid(),
+            CallerAgentId = "scope-agent",
+            TargetAgentId = "floorplan-agent",
+            CapabilityId = "generate-floorplan",
+            Payload = JsonSerializer.SerializeToElement(new
+            {
+                videoStreamId = "scope-video-720p"
+            })
+        });
+
+
 
         //Console.WriteLine("\nSystem initialized. Press ENTER to shut down.");
         //Console.ReadLine();

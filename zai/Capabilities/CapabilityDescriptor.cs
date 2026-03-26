@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+
 namespace zai.Capabilities
 {
     public enum CapabilityKind
@@ -9,15 +11,21 @@ namespace zai.Capabilities
         DuplexStreaming // Stream<Request> <-> Stream<Response>
     }
 
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "descriptorType")]
+    [JsonDerivedType(typeof(FloorPlanGenerationCapabilityDescriptor), "floorplan")]
+    [JsonDerivedType(typeof(ObjectDetectionCapabilityDescriptor), "object-detection")]
     public abstract class CapabilityDescriptor
     {
-        public string CapabilityId { get; init; }          // Unique within agent
-        public string Name { get; init; }                  // Logical name, e.g. "FloorPlan.Generate"
-        public string Version { get; init; }               // SemVer or "1", "1.1"
-        public string? Description { get; init; }
+        public string CapabilityId { get; init; } = default!;
+        public string Name { get; init; } = default!;
+        public string Version { get; init; } = default!;
+        public string Description { get; init; } = default!;
+        public CapabilityKind Kind { get; init; }
 
-        public IReadOnlyList<string> Tags { get; init; }   // "floorplan", "vision", "geometry"
-        public CapabilityKind Kind { get; init; }          // Unary, Streaming, Subscription, etc.
+        // Restored property
+        public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
     }
+
+
 }
 
