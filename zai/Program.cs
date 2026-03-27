@@ -91,20 +91,20 @@ public class Program
         });
 
 
-        //TEST CODE: These lines test the 
-        var runtime = new GrpcAgentRuntime("http://localhost:5001");
-        var serverResponse = await runtime.InvokeAsync(
-            new zai.Capabilities.Invocation.CapabilityInvocationRequest
-            {
-                CapabilityId = "analyze-image",
-                Payload = JsonDocument.Parse("{\"imageBase64\":\"image data\"}").RootElement
-            },
-            CancellationToken.None
-        );
-        Console.WriteLine($"Success: {serverResponse.Success}");
-        Console.WriteLine($"Error Code: {serverResponse.Error?.Code}");
-        Console.WriteLine($"Error Message: {serverResponse.Error?.Message}");
-        Console.WriteLine($"Payload: {serverResponse.Payload}");
+        ////TEST CODE: These lines test the client code and write the results to console
+        //var runtime = new GrpcAgentRuntime("http://localhost:5001");
+        //var serverResponse = await runtime.InvokeAsync(
+        //    new zai.Capabilities.Invocation.CapabilityInvocationRequest
+        //    {
+        //        CapabilityId = "analyze-image",
+        //        Payload = JsonDocument.Parse("{\"imageBase64\":\"image data\"}").RootElement
+        //    },
+        //    CancellationToken.None
+        //);
+        //Console.WriteLine($"Success: {serverResponse.Success}");
+        //Console.WriteLine($"Error Code: {serverResponse.Error?.Code}");
+        //Console.WriteLine($"Error Message: {serverResponse.Error?.Message}");
+        //Console.WriteLine($"Payload: {serverResponse.Payload}");
 
 
         var a2a = new A2AOrchestrator(capabilityRegistry, agentDirectory);
