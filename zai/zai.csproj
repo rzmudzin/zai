@@ -16,6 +16,10 @@
     <None Remove="Capabilities\Registration\" />
     <None Remove="Agents\" />
     <None Remove="Agents\RunTime\" />
+    <None Remove="Protos\" />
+    <None Remove="Protos\agent_runtime.proto" />
+    <None Remove="Orchestrator\" />
+    <None Remove="Orchestrator\RunTime\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -26,5 +30,21 @@
     <Folder Include="Capabilities\Registration\" />
     <Folder Include="Agents\" />
     <Folder Include="Agents\RunTime\" />
+    <Folder Include="Protos\" />
+    <Folder Include="Orchestrator\" />
+    <Folder Include="Orchestrator\RunTime\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.34.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.76.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.76.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.76.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.78.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos/agent_runtime.proto" GrpcServices="Both" />
   </ItemGroup>
 </Project>

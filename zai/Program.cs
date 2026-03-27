@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection;
 using zai;
 using zai.Agents;
 using zai.Agents.RunTime;
@@ -10,6 +14,31 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.ListenLocalhost(5001, o =>
+            {
+                o.Protocols = HttpProtocols.Http2;
+            });
+        });
+
+        builder.Services.AddGrpc();
+        builder.Services.AddSingleton<ICapabilityHandler, ScopeAgentCapabilityHandler>();
+
+        builder.Services.AddGrpcReflection();
+
+        var app = builder.Build();
+
+        app.MapGrpcReflectionService();
+        app.MapGrpcService<GrpcAgentRuntimeService>();
+
+        //var serverTask = app.RunAsync();
+        var serverTask = app.StartAsync();
+
+
         // 1. Start the registry
         var registry = new AgentRegistry("http://localhost:6000");
         registry.Start();
@@ -18,7 +47,7 @@ public class Program
         var scopeAgent = new ScopeAgent("http://localhost:5005");
         var floorAgent = new FloorPlanAgent("http://localhost:5006");
 
-        //Next 3 lines just some test code working with the capabilities registry
+        //TEST CODE: Next 3 lines just some test code working with the capabilities registry
         //var agentCards = new AgentCard[] { scopeAgent.Card, floorAgent.Card };
         //ICapabilityRegistry capabilityRegistry = new CapabilityRegistry(agentCards);
         //var generateFloorPanCapability = capabilityRegistry.GetByCapabilityId("generate-floorplan");
@@ -38,10 +67,6 @@ public class Program
         // Build the capability registry
         var capabilityRegistry = new CapabilityRegistry(cards);
 
-
-        //var orchestrator = new Orchestrator();
-
-        //Console.WriteLine("\n=== Discovering Agents and Configuring Streams ===");
 
         //// 4. Discover agents + configure streams based on StreamProfile
         //var cards = await orchestrator.DiscoverAgentsAndConfigureStreams(
@@ -64,6 +89,24 @@ public class Program
             ["scope-agent"] = new InProcessAgentRuntime(new ScopeAgentCapabilityHandler()),
             ["floorplan-agent"] = new InProcessAgentRuntime(new FloorPlanCapabilityHandler())
         });
+
+
+        //TEST CODE: These lines test the 
+        var runtime = new GrpcAgentRuntime("http://localhost:5001");
+        var serverResponse = await runtime.InvokeAsync(
+            new zai.Capabilities.Invocation.CapabilityInvocationRequest
+            {
+                CapabilityId = "analyze-image",
+                Payload = JsonDocument.Parse("{\"imageBase64\":\"image data\"}").RootElement
+            },
+            CancellationToken.None
+        );
+        Console.WriteLine($"Success: {serverResponse.Success}");
+        Console.WriteLine($"Error Code: {serverResponse.Error?.Code}");
+        Console.WriteLine($"Error Message: {serverResponse.Error?.Message}");
+        Console.WriteLine($"Payload: {serverResponse.Payload}");
+
+
         var a2a = new A2AOrchestrator(capabilityRegistry, agentDirectory);
         var response = await a2a.InvokeAsync(new CapabilityInvocationRequest
         {

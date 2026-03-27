@@ -1,23 +1,39 @@
 ﻿<Properties StartupConfiguration="{DEB345B8-E552-4C7E-8F61-A8B8A27E3A13}|Default">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="zai/Models/AgentCard.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/rzmudzinski/projects/zai/zai/Agents/AgentRegistry.cs" relfile="zai/Agents/AgentRegistry.cs" line="36" column="17" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.zai PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="zai/Orchestrator/RunTime/GrpcAgentRuntime.cs">
     <Files>
-      <File FileName="zai/Models/AgentCard.cs" Line="27" Column="34" />
-      <File FileName="zai/Orchestrator.cs" Line="28" Column="39" />
-      <File FileName="zai/Agent.cs" Line="17" Column="1" />
-      <File FileName="zai/Streams/VideoStream.cs" Line="43" Column="1" />
-      <File FileName="zai/Streams/DepthStream.cs" Line="34" Column="1" />
-      <File FileName="zai/Streams/LidarStream.cs" Line="34" Column="1" />
-      <File FileName="zai/AgentRegistry.cs" Line="36" Column="1" />
-      <File FileName="zai/Program.cs" Line="23" Column="44" />
+      <File FileName="zai/Orchestrator/RunTime/GrpcAgentRuntime.cs" Line="16" Column="1" />
+      <File FileName="zai/Agents/RunTime/IAgentRuntime.cs" Line="8" Column="1" />
+      <File FileName="zai/Capabilities/Invocation/CapabilityInvocationResponse.cs" Line="13" Column="1" />
+      <File FileName="zai/Protos/agent_runtime.proto" Line="8" Column="40" />
+      <File FileName="zai/Models/ErrorInfo.cs" Line="7" Column="1" />
+      <File FileName="zai/Capabilities/Invocation/CapabilityInvocationRequest.cs" Line="33" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="zai" selected="True">
+          <Node name="zai" expanded="True">
             <Node name="zai">
+              <Node name="Agents" expanded="True">
+                <Node name="RunTime" expanded="True" />
+              </Node>
+              <Node name="Capabilities" expanded="True">
+                <Node name="Invocation" expanded="True" />
+                <Node name="Registration" expanded="True" />
+              </Node>
               <Node name="Models" expanded="True" />
-              <Node name="Streams" expanded="True" />
+              <Node name="Orchestrator" expanded="True">
+                <Node name="RunTime">
+                  <Node name="GrpcAgentRuntime.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="Protos" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -25,11 +41,5 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.zai PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/rzmudzinski/projects/zai/zai/AgentRegistry.cs" relfile="zai/AgentRegistry.cs" line="36" column="17" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>

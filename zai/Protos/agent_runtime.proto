@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+package a2a.v1;
+
+// Ensures generated C# types land in the correct namespace
+option csharp_namespace = "A2A.Transport.Grpc.V1";
+
+// -----------------------------------------------------------------------------
+// Messages
+// -----------------------------------------------------------------------------
+
+// The orchestrator sends this to an agent when invoking a capability.
+message CapabilityInvocationRequest {
+  string capabilityId = 1;   // The capability being invoked
+  bytes payload = 2;         // Raw JSON payload (UTF-8 encoded)
+}
+
+// The agent returns this after executing the capability.
+message CapabilityInvocationResponse {
+  string invocation_id = 1;
+  bool success = 2;
+  bytes payload = 3;
+  ErrorInfo error = 4;
+}
+
+// Error details for failed capability execution.
+message ErrorInfo {
+  string code = 1;           // Machine-readable error code
+  string message = 2;        // Human-readable error message
+}
+
+// -----------------------------------------------------------------------------
+// Service
+// -----------------------------------------------------------------------------
+
+// Every agent exposes this service.
+// The orchestrator calls Invoke() to execute a capability remotely.
+service AgentRuntime {
+  rpc Invoke (CapabilityInvocationRequest)
+      returns (CapabilityInvocationResponse);
+}
